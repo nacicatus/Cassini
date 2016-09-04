@@ -28,10 +28,12 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
             dispatch_async(dispatch_get_global_queue(qos, 0)) { () -> Void in
                 let imageData = NSData(contentsOfURL: url) // get the image in the background in another queue that was user initiated
                 dispatch_async(dispatch_get_main_queue()) { // and put the result of that SLOW queu back on the main queue, once it's downloaded from the Web
-                    if imageData != nil {
-                        self.image = UIImage(data: imageData!) // we have to put self. because it's capturing from the closure
-                    } else {
-                        self.image = nil
+                    if url == self.imageURL { // just checking that the image being returned is the one asked for by the user
+                        if imageData != nil {
+                            self.image = UIImage(data: imageData!) // we have to put self. because it's capturing from the closure
+                        } else {
+                            self.image = nil
+                        }
                     }
                 }
             }
