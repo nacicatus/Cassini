@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ImageViewController: UIViewController {
+class ImageViewController: UIViewController, UIScrollViewDelegate {
     
     
     // Model
@@ -50,8 +50,16 @@ class ImageViewController: UIViewController {
         didSet {
             // set the content size
             scrollView.contentSize = imageView.frame.size
+            scrollView.delegate = self
+            scrollView.minimumZoomScale = 0.03
+            scrollView.maximumZoomScale = 1.0
         }
     }
+    
+    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+        return imageView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollView.addSubview(imageView)
