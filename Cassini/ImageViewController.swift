@@ -34,7 +34,7 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
                         if imageData != nil {
                             self.image = UIImage(data: imageData!) // we have to put self. because it's capturing the image var from the closure
                         } else {
-                            self.image = nil
+                            self.image = nil // remember to put [unowned self] to avoid pointer looping in the heap
                         }
                     }
                 }
