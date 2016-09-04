@@ -23,14 +23,16 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
     
     // This time do multithreading
     private func fetchImage() {
+        
         if let url = imageURL {
-            let qos = Int(QOS_CLASS_USER_INITIATED.value) // get the value
+            spinner?.startAnimating() // added a spinner when you make a network request
+            let qos = Int(QOS_CLASS_USER_INITIATED.value) // put that network request on another queue
             dispatch_async(dispatch_get_global_queue(qos, 0)) { () -> Void in
                 let imageData = NSData(contentsOfURL: url) // get the image in the background in another queue that was user initiated
                 dispatch_async(dispatch_get_main_queue()) { // and put the result of that SLOW queu back on the main queue, once it's downloaded from the Web
                     if url == self.imageURL { // just checking that the image being returned is the one asked for by the user
                         if imageData != nil {
-                            self.image = UIImage(data: imageData!) // we have to put self. because it's capturing from the closure
+                            self.image = UIImage(data: imageData!) // we have to put self. because it's capturing the image var from the closure
                         } else {
                             self.image = nil
                         }
@@ -43,6 +45,8 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
     // View
     private var imageView = UIImageView()
     
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
     private var image: UIImage? {
         get {
             return imageView.image
@@ -51,6 +55,7 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
             imageView.image = newValue
             imageView.sizeToFit()
             scrollView?.contentSize = imageView.frame.size // The ?. sets image internally even if outlets aren't set yet
+            spinner?.stopAnimating() // stop the spinner when the image is set
         }
     }
     

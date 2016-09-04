@@ -111,17 +111,23 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rVg-a4-PFQ">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </scrollView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="4a1-ng-eZw">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="rVg-a4-PFQ" secondAttribute="trailing" id="00z-vK-QBT"/>
                             <constraint firstItem="rVg-a4-PFQ" firstAttribute="bottom" secondItem="9RX-k8-mmC" secondAttribute="top" id="3jh-oF-NgB"/>
+                            <constraint firstAttribute="centerY" secondItem="4a1-ng-eZw" secondAttribute="centerY" id="9aQ-3R-UMT"/>
                             <constraint firstItem="rVg-a4-PFQ" firstAttribute="top" secondItem="j5r-5d-Sas" secondAttribute="top" id="AdH-yh-cld"/>
+                            <constraint firstAttribute="centerX" secondItem="4a1-ng-eZw" secondAttribute="centerX" id="YYK-d8-4iD"/>
                             <constraint firstItem="rVg-a4-PFQ" firstAttribute="leading" secondItem="j5r-5d-Sas" secondAttribute="leading" id="ZzY-nz-nue"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="scrollView" destination="rVg-a4-PFQ" id="Ica-dq-6x6"/>
+                        <outlet property="spinner" destination="4a1-ng-eZw" id="3Qt-6Z-G3W"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NA8-B7-D6O" userLabel="First Responder" sceneMemberID="firstResponder"/>
