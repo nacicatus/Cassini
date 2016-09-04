@@ -21,13 +21,19 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    // This time do multithreading
     private func fetchImage() {
         if let url = imageURL {
-            let imageData = NSData(contentsOfURL: url)
-            if imageData != nil {
-                image = UIImage(data: imageData!)
-            } else {
-                image = nil
+            let qos = Int(QOS_CLASS_USER_INITIATED.value) // get the value
+            dispatch_async(dispatch_get_global_queue(qos, 0)) { () -> Void in
+                let imageData = NSData(contentsOfURL: url) // get the image in the background in another queue that was user initiated
+                dispatch_async(dispatch_get_main_queue()) { // and put the result of that SLOW queu back on the main queue, once it's downloaded from the Web
+                    if imageData != nil {
+                        self.image = UIImage(data: imageData!) // we have to put self. because it's capturing from the closure
+                    } else {
+                        self.image = nil
+                    }
+                }
             }
         }
     }
@@ -46,11 +52,13 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    
     @IBOutlet weak var scrollView: UIScrollView! {
         didSet {
             // set the content size
             scrollView.contentSize = imageView.frame.size
             scrollView.delegate = self
+            // Zoom scales
             scrollView.minimumZoomScale = 0.03
             scrollView.maximumZoomScale = 1.0
         }
