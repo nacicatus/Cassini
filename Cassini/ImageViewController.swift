@@ -42,12 +42,19 @@ class ImageViewController: UIViewController {
         set {
             imageView.image = newValue
             imageView.sizeToFit()
+            scrollView?.contentSize = imageView.frame.size // The ?. sets image internally even if outlets aren't set yet
         }
     }
     
+    @IBOutlet weak var scrollView: UIScrollView! {
+        didSet {
+            // set the content size
+            scrollView.contentSize = imageView.frame.size
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(imageView)
+        scrollView.addSubview(imageView)
     }
     
     override func viewWillAppear(animated: Bool) {
